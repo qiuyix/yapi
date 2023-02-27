@@ -3,7 +3,6 @@ networks:
 services: 
   mongodb: 
     container_name: mongo
-    restart: always
     environment: 
       MONGO_INITDB_DATABASE: yapi
     image: "mongo:latest"
@@ -11,16 +10,12 @@ services:
       - yapi-mongo
     ports: 
       - "27018:27017"
-    volumes: 
-      - "/home/yixiong/mongo/etc:/etc/mongo"
-      - "/home/yixiong/mongo/data/db:/data/db"
   yapi: 
     build: ./
-    restart: always
-    container_name: yapi
     depends_on: 
       - mongodb
     image: yapi
+    container_name: yapi
     networks: 
       - yapi-mongo
     ports: 
@@ -33,4 +28,9 @@ services:
         sleep 1;
       done;
       echo "mongodb is ready!";
-      cd /docker-yapi/yapi/vendors && if [ -d node_modules ]; then node server/app.js; else npm run install-server && node server/app.js; fi'
+      cd /docker-yapi/yapi/vendors && if [ ! -f "install.lock" ];then 
+          npm run install-server
+          echo a > install.lock
+        fi
+        node server/app.js 
+      '
