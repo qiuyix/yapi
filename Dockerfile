@@ -4,7 +4,7 @@ RUN apk add --no-cache git
 RUN apk update && apk add bash
 RUN mkdir yapi \ 
     && cd yapi \
-    && git clone https://github.com/YMFE/yapi.git vendors
+    && git clone https://gitee.com/mirrors/YApi.git vendors
 WORKDIR yapi
 COPY ./config.json .
 WORKDIR vendors
