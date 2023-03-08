@@ -1,7 +1,8 @@
 networks: 
   yapi-mongo:
 services: 
-  mongodb: 
+  mongodb:
+    restart: always 
     container_name: mongo
     environment: 
       MONGO_INITDB_DATABASE: yapi
@@ -14,6 +15,7 @@ services:
     build: ./
     depends_on: 
       - mongodb
+    restart: always
     image: yapi
     container_name: yapi
     networks: 
